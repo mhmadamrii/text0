@@ -6,6 +6,7 @@ import { google } from "@ai-sdk/google";
 import { groq } from "@ai-sdk/groq";
 import { openai } from "@ai-sdk/openai";
 import { xai } from "@ai-sdk/xai";
+import { ollama } from "ollama-ai-provider";
 
 import { getSecureSession } from "@/lib/auth/server";
 import type { NextRequest } from "next/server";
@@ -38,6 +39,9 @@ export async function POST(request: NextRequest) {
 			model = google("gemini-2.0-flash-001");
 		} else if (_model === "gemini-2.0-flash-lite-preview-02-05") {
 			model = google("gemini-2.0-flash-lite-preview-02-05");
+		} else if (_model?.startsWith("ollama/")) {
+			const ollamaModel = _model.replace("ollama/", "");
+			model = ollama(ollamaModel);
 		} else {
 			model = openai("gpt-4o-mini");
 		}

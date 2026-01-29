@@ -1,12 +1,12 @@
 "use server";
 
+import { getUtilityModel } from "@/lib/ai-model";
 import { getSecureSession } from "@/lib/auth/server";
 import { nanoid } from "@/lib/nanoid";
 import { redis } from "@/lib/redis";
 import type { Reference } from "@/lib/redis";
 import type { ActionState } from "@/lib/utils";
 import type { processReferenceTask } from "@/trigger/process-document";
-import { openai } from "@ai-sdk/openai";
 import { tasks } from "@trigger.dev/sdk/v3";
 import { generateText } from "ai";
 import { revalidatePath } from "next/cache";
@@ -42,7 +42,7 @@ export async function addWebsiteReference(
 		}
 
 		// Content moderation check
-		const model = openai("gpt-4o-mini");
+		const model = getUtilityModel();
 		const { text } = await generateText({
 			model,
 			prompt: `

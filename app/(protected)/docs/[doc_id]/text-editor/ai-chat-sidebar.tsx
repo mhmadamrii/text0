@@ -40,6 +40,11 @@ export function AIChatSidebar({
 	const [model] = useModel();
 	const { getSelectedReferences } = useSelectedReferences(doc_id as string);
 
+	// Use Ollama-specific endpoint for local models
+	const chatApi = model?.startsWith("ollama/")
+		? "/api/chat-ollama"
+		: "/api/chat";
+
 	const {
 		messages,
 		input,
@@ -50,7 +55,7 @@ export function AIChatSidebar({
 		error,
 		stop,
 	} = useChat({
-		api: "/api/chat",
+		api: chatApi,
 		body: {
 			model,
 			references: getSelectedReferences(),

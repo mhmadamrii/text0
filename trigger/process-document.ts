@@ -1,8 +1,8 @@
+import { getUtilityModel } from "@/lib/ai-model";
 import { Firecrawl } from "@/lib/firecrawl";
 import { nanoid } from "@/lib/nanoid";
 import { REFERENCE_KEY, type Reference, redis } from "@/lib/redis";
 import { vector } from "@/lib/vector";
-import { openai } from "@ai-sdk/openai";
 import { logger, task } from "@trigger.dev/sdk/v3";
 import { generateText } from "ai";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
@@ -78,7 +78,7 @@ export const processReferenceTask = task({
 
 		if (!info.name || z.string().url().safeParse(info.name).success) {
 			const text = await generateText({
-				model: openai("gpt-4o-mini"),
+				model: getUtilityModel(),
 				prompt: `Extract the name of the document from the following text: ${response.markdown}. The name should be less than 50 characters. Just return the name, no other text.`,
 			});
 			info.name = text.text;

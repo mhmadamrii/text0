@@ -1,5 +1,11 @@
 export const models = [
 	{
+		id: "ollama/llama3.2",
+		name: "Llama 3.2 (Ollama)",
+		description: "Run locally with Ollama - no API key needed",
+		component: "ollama",
+	},
+	{
 		id: "gpt-4o-mini",
 		name: "GPT-4o Mini",
 		description: "Fast and efficient model for quick completions",
